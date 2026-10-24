@@ -18,11 +18,8 @@ static size_t	get_len(long long n)
 
 	len = 0;
 	if (n <= 0)
-	{
 		len++;
-		n = -n;
-	}
-	while (n > 0)
+	while (n)
 	{
 		n /= 10;
 		len++;
@@ -38,7 +35,7 @@ char	*ft_itoa(int n)
 
 	num = n;
 	len = get_len(num);
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = malloc(len + 1);
 	if (!str)
 		return (NULL);
 	str[len] = '\0';
@@ -49,7 +46,7 @@ char	*ft_itoa(int n)
 		str[0] = '-';
 		num = -num;
 	}
-	while (num > 0)
+	while (num)
 	{
 		str[--len] = (num % 10) + '0';
 		num /= 10;

@@ -15,20 +15,16 @@
 static size_t	count_words(char const *s, char c)
 {
 	size_t	count;
-	int		in_word;
 
 	count = 0;
-	in_word = 0;
 	while (*s)
 	{
-		if (*s != c && !in_word)
-		{
-			in_word = 1;
+		while (*s == c)
+			s++;
+		if (*s)
 			count++;
-		}
-		else if (*s == c)
-			in_word = 0;
-		s++;
+		while (*s && *s != c)
+			s++;
 	}
 	return (count);
 }
@@ -43,24 +39,24 @@ static void	*free_all(char **lst, size_t i)
 
 static char	**fill_words(char **res, char const *s, char c, size_t word_count)
 {
-	size_t	i;
+	size_t	count;
 	size_t	len;
 
-	i = 0;
-	while (i < word_count)
+	count = 0;
+	while (count < word_count)
 	{
-		while (*s && *s == c)
+		while (*s == c)
 			s++;
 		len = 0;
 		while (s[len] && s[len] != c)
 			len++;
-		res[i] = ft_substr(s, 0, len);
-		if (!res[i])
-			return (free_all(res, i));
+		res[count] = ft_substr(s, 0, len);
+		if (!res[count])
+			return (free_all(res, count));
 		s += len;
-		i++;
+		count++;
 	}
-	res[i] = NULL;
+	res[count] = NULL;
 	return (res);
 }
 
@@ -72,7 +68,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	word_count = count_words(s, c);
-	res = (char **)malloc(sizeof(void *) * (word_count + 1));
+	res = malloc(sizeof(char *) * (word_count + 1));
 	if (!res)
 		return (NULL);
 	return (fill_words(res, s, c, word_count));
