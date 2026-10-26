@@ -12,20 +12,20 @@
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int	ft_atoi(const char *nptr)
 {
-	int				sign;
-	long long		result;
+	int			sign;
+	long long	num;
 
 	sign = 1;
-	result = 0;
-	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
-		str++;
-	if (*str == '-')
+	num = 0;
+	while (*nptr == ' ' || (*nptr >= '\t' && *nptr <= '\r'))
+		nptr++;
+	if (*nptr == '-')
 		sign = -1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (ft_isdigit(*str))
-		result = result * 10 + (*str++ - '0');
-	return ((int)(result * sign));
+	if (*nptr == '-' || *nptr == '+')
+		nptr++;
+	while (ft_isdigit(*nptr))
+		num = num * 10 + (*nptr++ - '0');
+	return (sign * num);
 }
