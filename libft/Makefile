@@ -28,6 +28,8 @@ $(NAME): $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJS): libft.h
+
 clean:
 	$(RM) $(OBJS)
 
