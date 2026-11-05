@@ -26,10 +26,10 @@ int	ft_print_str(char *s)
 	return (ft_strlen(s));
 }
 
-int	ft_print_base(unsigned long n, char *base)
+int	ft_print_base(size_t n, char *base)
 {
-	unsigned long	len;
-	int				count;
+	size_t	len;
+	int		count;
 
 	len = ft_strlen(base);
 	count = 1;
@@ -39,25 +39,16 @@ int	ft_print_base(unsigned long n, char *base)
 	return (count);
 }
 
-int	ft_print_nbr(int n)
-{
-	int	count;
-
-	count = 0;
-	if (n < 0)
-	{
-		count += ft_print_char('-');
-		return (count + ft_print_base(-(long long)n, BASE_DEC));
-	}
-	return (ft_print_base(n, BASE_DEC));
-}
-
 int	ft_print_ptr(void *p)
 {
-	int	count;
-
 	if (!p)
 		return (ft_print_str("(nil)"));
-	count = ft_print_str("0x");
-	return (count + ft_print_base((unsigned long)p, BASE_HEX));
+	return (ft_print_str("0x") + ft_print_base((size_t)p, BASE_HEX));
+}
+
+int	ft_print_nbr(int n)
+{
+	if (n < 0)
+		return (ft_print_char('-') + ft_print_base(-(size_t)n, BASE_DEC));
+	return (ft_print_base(n, BASE_DEC));
 }

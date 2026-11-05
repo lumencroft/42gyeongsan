@@ -12,23 +12,25 @@
 
 #include "ft_printf.h"
 
-static int	ft_print_arg(char spec, va_list *ap)
+static int	ft_print_arg(char spec, va_list ap)
 {
 	if (spec == 'c')
-		return (ft_print_char(va_arg(*ap, int)));
+		return (ft_print_char(va_arg(ap, int)));
 	if (spec == 's')
-		return (ft_print_str(va_arg(*ap, char *)));
-	if (spec == 'd' || spec == 'i')
-		return (ft_print_nbr(va_arg(*ap, int)));
-	if (spec == 'u')
-		return (ft_print_base(va_arg(*ap, unsigned int), BASE_DEC));
-	if (spec == 'x')
-		return (ft_print_base(va_arg(*ap, unsigned int), BASE_HEX));
-	if (spec == 'X')
-		return (ft_print_base(va_arg(*ap, unsigned int), BASE_HEXUP));
+		return (ft_print_str(va_arg(ap, char *)));
 	if (spec == 'p')
-		return (ft_print_ptr(va_arg(*ap, void *)));
-	return (ft_print_char('%'));
+		return (ft_print_ptr(va_arg(ap, void *)));
+	if (spec == 'd' || spec == 'i')
+		return (ft_print_nbr(va_arg(ap, int)));
+	if (spec == 'u')
+		return (ft_print_base(va_arg(ap, unsigned int), BASE_DEC));
+	if (spec == 'x')
+		return (ft_print_base(va_arg(ap, unsigned int), BASE_HEX));
+	if (spec == 'X')
+		return (ft_print_base(va_arg(ap, unsigned int), BASE_HEXUP));
+	if (spec == '%')
+		return (ft_print_char('%'));
+	return (ft_print_char('%') + ft_print_char(spec));
 }
 
 int	ft_printf(const char *format, ...)
@@ -40,13 +42,17 @@ int	ft_printf(const char *format, ...)
 	va_start(ap, format);
 	while (*format)
 	{
-		if (*format == '%' && format[1] && ft_strchr("cspdiuxX%", format[1]))
+		if (*format == '%' && format[1])
 		{
-			count += ft_print_arg(format[1], &ap);
-			format += 2;
+			format++;
+			count += ft_print_arg(*format, ap);
+			format++;
 		}
 		else
-			count += ft_print_char(*format++);
+		{
+			count += ft_print_char(*format);
+			format++;
+		}
 	}
 	va_end(ap);
 	return (count);
