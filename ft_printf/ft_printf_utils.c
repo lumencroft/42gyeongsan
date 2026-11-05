@@ -41,14 +41,23 @@ int	ft_print_base(size_t n, char *base)
 
 int	ft_print_ptr(void *p)
 {
+	int	count;
+
 	if (!p)
 		return (ft_print_str("(nil)"));
-	return (ft_print_str("0x") + ft_print_base((size_t)p, BASE_HEX));
+	count = ft_print_str("0x");
+	return (count + ft_print_base((size_t)p, BASE_HEX));
 }
 
 int	ft_print_nbr(int n)
 {
+	int	count;
+
+	count = 0;
 	if (n < 0)
-		return (ft_print_char('-') + ft_print_base(-(size_t)n, BASE_DEC));
+	{
+		count += ft_print_char('-');
+		return (count + ft_print_base(-(size_t)n, BASE_DEC));
+	}
 	return (ft_print_base(n, BASE_DEC));
 }

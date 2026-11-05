@@ -24,7 +24,7 @@ int	ft_printf(const char *format, ...);
 int	ft_print_char(char c);
 int	ft_print_str(char *s);
 int	ft_print_nbr(int n);
-int	ft_print_base(unsigned long n, char *base);
+int	ft_print_base(size_t n, char *base);
 int	ft_print_ptr(void *p);
 
 #endif
