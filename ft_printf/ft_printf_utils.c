@@ -56,7 +56,7 @@ int	ft_print_nbr(int n)
 	count = 0;
 	if (n < 0)
 	{
-		count += ft_print_char('-');
+		count = ft_print_char('-');
 		return (count + ft_print_base(-(size_t)n, BASE_DEC));
 	}
 	return (ft_print_base(n, BASE_DEC));
