@@ -20,11 +20,11 @@
 # define BASE_HEX "0123456789abcdef"
 # define BASE_HEXUP "0123456789ABCDEF"
 
-int	ft_printf(const char *format, ...);
 int	ft_print_char(char c);
 int	ft_print_str(char *s);
+int	ft_print_ptr(void *p);
 int	ft_print_nbr(int n);
 int	ft_print_base(size_t n, char *base);
-int	ft_print_ptr(void *p);
+int	ft_printf(const char *format, ...);
 
 #endif

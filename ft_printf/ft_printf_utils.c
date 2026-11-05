@@ -26,19 +26,6 @@ int	ft_print_str(char *s)
 	return (ft_strlen(s));
 }
 
-int	ft_print_base(size_t n, char *base)
-{
-	size_t	len;
-	int		count;
-
-	len = ft_strlen(base);
-	count = 1;
-	if (n >= len)
-		count += ft_print_base(n / len, base);
-	ft_putchar_fd(base[n % len], 1);
-	return (count);
-}
-
 int	ft_print_ptr(void *p)
 {
 	int	count;
@@ -53,11 +40,23 @@ int	ft_print_nbr(int n)
 {
 	int	count;
 
-	count = 0;
 	if (n < 0)
 	{
 		count = ft_print_char('-');
 		return (count + ft_print_base(-(size_t)n, BASE_DEC));
 	}
 	return (ft_print_base(n, BASE_DEC));
+}
+
+int	ft_print_base(size_t n, char *base)
+{
+	size_t	len;
+	int		count;
+
+	len = ft_strlen(base);
+	count = 1;
+	if (n >= len)
+		count += ft_print_base(n / len, base);
+	ft_putchar_fd(base[n % len], 1);
+	return (count);
 }
