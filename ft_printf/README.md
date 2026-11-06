@@ -4,7 +4,7 @@
 
 ## Description
 
-ft_printf is a re-implementation of the libc printf() function. The goal is to learn how variadic functions work in C (stdarg.h).
+ft_printf is a re-implementation of the libc printf() function. The goal is to learn how variadic functions work in C.
 
 ### Supported conversions
 
@@ -29,6 +29,22 @@ ft_printf is a re-implementation of the libc printf() function. The goal is to l
 ├── ft_printf_utils.c    # output helpers (char, string, number, pointer)
 └── libft/               # my libft (sources + Makefile)
 ```
+
+## Algorithm and data structure
+
+**Single pass, no buffer.** `ft_printf` walks the format string once and writes characters immediately, so no buffer or `malloc` is needed. Every helper returns how many characters it wrote, and `ft_printf` sums them up.
+
+**Dispatcher.** `ft_print_arg` is a chain of `if` statements that reads the argument with `va_arg` using the right type and calls the matching helper. A chain was chosen over a function-pointer table because there are only a few conversions. `%%` and any unknown conversion print the character itself.
+
+**`va_list` passed by pointer.** Passing it by value is not portable (on Windows x64 the caller's list did not advance), so the helpers receive `va_list *`.
+
+**One recursive function for every base.** `ft_print_base` recurses on `n / len` first, then prints `base[n % len]`. The call stack holds the digits, so no array or `ft_itoa` is needed.
+
+**Signed numbers.** `%d` prints `-` first, then the magnitude `-(size_t)n`, so `INT_MIN` does not overflow.
+
+**Special values.** `NULL` prints `(null)` for `%s` and `(nil)` for `%p`, like glibc.
+
+**Trade-off.** Each character is its own `write` call. This is slower than buffering but keeps the code simple.
 
 ## Instructions
 
