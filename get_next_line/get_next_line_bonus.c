@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-static int	fill(int fd, char *buf, char **line)
+static int	fill(char **line, char *buf, int fd)
 {
 	ssize_t	n;
 
@@ -36,7 +36,7 @@ static int	join(char **line, char *buf)
 	size_t	len2;
 	int		done;
 
-	len1 = ft_strlen(*line);
+	len1 = str_len(*line);
 	len2 = chunk_len(buf, &done);
 	res = malloc(len1 + len2 + 1);
 	if (res)
@@ -53,8 +53,8 @@ static int	join(char **line, char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	*buf[OPEN_MAX];
 	char		*line;
+	static char	*buf[OPEN_MAX];
 
 	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -66,7 +66,7 @@ char	*get_next_line(int fd)
 		buf[fd][0] = '\0';
 	}
 	line = NULL;
-	while (fill(fd, buf[fd], &line))
+	while (fill(&line, buf, fd))
 	{
 		if (join(&line, buf[fd]))
 			return (line);

@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-static int	fill(int fd, char *buf, char **line)
+static int	fill(char **line, char *buf, int fd)
 {
 	ssize_t	n;
 
@@ -53,11 +53,11 @@ static int	join(char **line, char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];
 	char		*line;
+	static char	buf[BUFFER_SIZE + 1];
 
 	line = NULL;
-	while (fill(fd, buf, &line))
+	while (fill(&line, buf, fd))
 	{
 		if (join(&line, buf))
 			break ;
