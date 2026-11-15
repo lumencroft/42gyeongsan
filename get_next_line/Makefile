@@ -31,7 +31,7 @@ test: $(SRCS) main.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -g -fsanitize=address main.c $(SRCS) -o gnl_test
 
 test_bonus: $(BONUS_SRCS) main_bonus.c
-  	$(CC) $(CFLAGS) $(CPPFLAGS) -g -fsanitize=address,undefined main_bonus.c $(BONUS_SRCS) -o gnl_test_bonus
+	$(CC) $(CFLAGS) $(CPPFLAGS) -g -fsanitize=address,undefined main_bonus.c $(BONUS_SRCS) -o gnl_test_bonus
 
 clean:
 	rm -f $(OBJS) $(BONUS_OBJS)
