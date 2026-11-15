@@ -57,7 +57,7 @@ static void	join(char **line, char *buf, int *done)
 	copy(buf, buf + len, len_to(buf + len, '\0') + 1);
 }
 
-static char	*read_line(int fd, char *buf)
+static char	*next_line(int fd, char *buf)
 {
 	char	*line;
 	int		done;
@@ -88,7 +88,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 		buf[fd][0] = '\0';
 	}
-	line = read_line(fd, buf[fd]);
+	line = next_line(fd, buf[fd]);
 	if (!buf[fd][0])
 	{
 		free(buf[fd]);
