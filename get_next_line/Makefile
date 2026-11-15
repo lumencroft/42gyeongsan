@@ -27,18 +27,12 @@ $(BONUS_NAME): $(BONUS_OBJS)
 $(OBJS): get_next_line.h
 $(BONUS_OBJS): get_next_line_bonus.h
 
-test: $(SRCS) main.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -g -fsanitize=address main.c $(SRCS) -o gnl_test
-
-test_bonus: $(BONUS_SRCS) main_bonus.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -g -fsanitize=address,undefined main_bonus.c $(BONUS_SRCS) -o gnl_test_bonus
-
 clean:
 	rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
-	rm -f $(NAME) $(BONUS_NAME) gnl_test
+	rm -f $(NAME) $(BONUS_NAME)
 
 re: fclean all
 
-.PHONY: all bonus test clean fclean re
+.PHONY: all bonus clean fclean re
