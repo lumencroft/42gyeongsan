@@ -12,12 +12,10 @@
 
 #include "get_next_line.h"
 
-static int	fill(char **line, char *buf, int fd)
+static void	fill(int fd, char *buf, char **line, int *done)
 {
 	ssize_t	n;
 
-	if (buf[0])
-		return (1);
 	n = read(fd, buf, BUFFER_SIZE);
 	if (n < 0)
 	{
@@ -26,41 +24,53 @@ static int	fill(char **line, char *buf, int fd)
 		n = 0;
 	}
 	buf[n] = '\0';
-	return (n > 0);
+	*done = (n == 0);
 }
 
-static int	join(char **line, char *buf)
+static char	*append(char *line, char *buf, size_t n)
 {
 	char	*res;
-	size_t	len1;
-	size_t	len2;
-	int		done;
+	size_t	len;
 
-	len1 = ft_strlen(*line);
-	len2 = chunk_len(buf, &done);
-	res = malloc(len1 + len2 + 1);
+	len = len_to(line, '\0');
+	res = malloc(len + n + 1);
 	if (res)
 	{
-		copy(res, *line, len1);
-		copy(res + len1, buf, len2);
-		res[len1 + len2] = '\0';
+		copy(res, line, len);
+		copy(res + len, buf, n);
+		res[len + n] = '\0';
 	}
-	free(*line);
-	*line = res;
-	shift(buf, len2);
-	return (done || !res);
+	free(line);
+	return (res);
+}
+
+static void	join(char **line, char *buf, int *done)
+{
+	size_t	len;
+
+	len = len_to(buf, '\n');
+	*done = (buf[len] == '\n');
+	len += *done;
+	*line = append(*line, buf, len);
+	if (!*line)
+		*done = 1;
+	copy(buf, buf + len, len_to(buf + len, '\0') + 1);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*line;
 	static char	buf[BUFFER_SIZE + 1];
+	char		*line;
+	int			done;
 
 	line = NULL;
-	while (fill(&line, buf, fd))
+	done = 0;
+	while (!done)
 	{
-		if (join(&line, buf))
-			break ;
+		if (!buf[0])
+			fill(fd, buf, &line, &done);
+		if (!done)
+			join(&line, buf, &done);
 	}
 	return (line);
 }

@@ -18,33 +18,12 @@ void	copy(char *dst, char *src, size_t n)
 		*dst++ = *src++;
 }
 
-size_t	ft_strlen(char *s)
+size_t	len_to(char *s, char c)
 {
 	size_t	len;
 
 	len = 0;
-	while (s && s[len])
+	while (s && s[len] && s[len] != c)
 		len++;
 	return (len);
-}
-
-size_t	chunk_len(char *s, int *done)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len] && s[len] != '\n')
-		len++;
-	*done = (s[len] == '\n');
-	return (len + *done);
-}
-
-void	shift(char *buf, size_t n)
-{
-	size_t	j;
-
-	j = 0;
-	while (buf[n])
-		buf[j++] = buf[n++];
-	buf[j] = '\0';
 }

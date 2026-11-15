@@ -22,8 +22,6 @@
 
 char	*get_next_line(int fd);
 void	copy(char *dst, char *src, size_t n);
-size_t	ft_strlen(char *s);
-size_t	chunk_len(char *s, int *done);
-void	shift(char *buf, size_t n);
+size_t	len_to(char *s, char c);
 
 #endif
